@@ -17,16 +17,53 @@
             background-color: #020617;
             color: #f8fafc;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        .infographic-container {
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 5px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn.active {
+            background: #10b981;
+            color: #020617;
+        }
+
+        .nav-btn:not(.active):hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .view-content {
             width: 100%;
             max-width: 1100px;
+            display: none;
+        }
+
+        .view-content.active {
+            display: block;
+        }
+
+        .infographic-container {
             background: #0f172a;
             border-radius: 24px;
             padding: 40px;
@@ -49,7 +86,6 @@
             letter-spacing: -1px;
         }
 
-        /* Siatka osi czasu */
         .timeline-wrapper {
             position: relative;
             margin-left: 200px;
@@ -138,7 +174,6 @@
             background: #10b981;
             box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
         }
 
         .footer {
@@ -152,123 +187,204 @@
             padding-top: 25px;
             opacity: 0.9;
         }
+
+        .map-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 24px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            /* Delikatny filtr, żeby mapa pasowała do ciemnego motywu, 
+               ale nie psuła czytelności Twoich pinezek */
+            filter: contrast(1.1) brightness(0.9);
+        }
+
+        .google-maps-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #10b981;
+            color: #020617;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .google-maps-link:hover {
+            transform: scale(1.01);
+            background: #34d399;
+        }
     </style>
 </head>
 <body>
 
-    <div class="infographic-container">
-        <div class="header">
-            <p class="text-emerald-500 font-bold tracking-[0.3em] text-xs mb-2 uppercase">Warszawa • Maj 2026</p>
-            <h1>NOC MUZEÓW</h1>
+    <!-- Menu Nawigacyjne -->
+    <div class="nav-tabs">
+        <div id="btn-plan" class="nav-btn active" onclick="switchView('plan')">
+            <i class="fas fa-calendar-alt mr-2"></i>Harmonogram
         </div>
-
-        <div class="timeline-wrapper">
-            <div class="time-labels">
-                <div class="time-label">16:00</div>
-                <div class="time-label">17:00</div>
-                <div class="time-label">18:00</div>
-                <div class="time-label">19:00</div>
-                <div class="time-label">20:00</div>
-                <div class="time-label">21:00</div>
-                <div class="time-label">22:00</div>
-                <div class="time-label">23:00</div>
-                <div class="time-label">00:00</div>
-            </div>
-
-            <div class="grid-lines">
-                <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
-                <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
-                <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Siedziba PKO BP</div>
-                    <div class="attraction-address">Świętokrzyska 36</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 0%; width: 100%;">16:00 — 01:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Ambasady DE i FR</div>
-                    <div class="attraction-address">Jazdów 9 i 12/2</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 0%; width: 22.2%;">16:00 — 18:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Rezydencja Belweder</div>
-                    <div class="attraction-address">Belwederska 56</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 11.1%; width: 66.6%;">17:00 — 23:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Łazienki Królewskie</div>
-                    <div class="attraction-address">ul. Agrykola 1</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 33.3%; width: 66.7%;">19:00 — 01:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Muzeum Neonów</div>
-                    <div class="attraction-address">PKiN, 4 piętro</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 44.4%; width: 44.4%;">20:00 — 00:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Rektorat SGH</div>
-                    <div class="attraction-address">Niepodległości 162</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 50%; width: 16.6%;">20:30 — 22:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Fabryka E.Wedel</div>
-                    <div class="attraction-address">al. Wedla 5</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 55.5%; width: 44.5%;">21:00 — 01:00</div>
-                </div>
-            </div>
-
-            <div class="attraction-row">
-                <div class="attraction-info">
-                    <div class="attraction-name">Filharmonia</div>
-                    <div class="attraction-address">ul. Jasna 5</div>
-                </div>
-                <div class="attraction-bar-bg">
-                    <div class="bar" style="left: 66.6%; width: 16.6%;">22:00 — 23:30</div>
-                </div>
-            </div>
+        <div id="btn-map" class="nav-btn" onclick="switchView('map')">
+            <i class="fas fa-map-marked-alt mr-2"></i>Mapa Trasy
         </div>
+    </div>
 
-        <div class="footer">
-            <div>
-                <i class="fas fa-map-pin mr-2"></i> 
-                <strong>Bonus:</strong> CHEESE® aparat (Postępu 27) godz. 13:30
+    <!-- Widok 1: Harmonogram -->
+    <div id="view-plan" class="view-content active">
+        <div class="infographic-container">
+            <div class="header">
+                <p class="text-emerald-500 font-bold tracking-[0.3em] text-xs mb-2 uppercase">Warszawa • Maj 2026</p>
+                <h1>NOC MUZEÓW</h1>
+            </div>
+
+            <div class="timeline-wrapper">
+                <!-- Oś czasu -->
+                <div class="time-labels">
+                    <div class="time-label">16:00</div>
+                    <div class="time-label">17:00</div>
+                    <div class="time-label">18:00</div>
+                    <div class="time-label">19:00</div>
+                    <div class="time-label">20:00</div>
+                    <div class="time-label">21:00</div>
+                    <div class="time-label">22:00</div>
+                    <div class="time-label">23:00</div>
+                    <div class="time-label">00:00</div>
+                </div>
+
+                <div class="grid-lines">
+                    <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+                    <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+                    <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+                </div>
+
+                <!-- Lista atrakcji -->
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Siedziba PKO BP</div>
+                        <div class="attraction-address">Świętokrzyska 36</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 0%; width: 100%;">16:00 — 01:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Ambasady DE i FR</div>
+                        <div class="attraction-address">Jazdów 9 i 12/2</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 0%; width: 22.2%;">16:00 — 18:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Rezydencja Belweder</div>
+                        <div class="attraction-address">Belwederska 56</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 11.1%; width: 66.6%;">17:00 — 23:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Łazienki Królewskie</div>
+                        <div class="attraction-address">ul. Agrykola 1</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 33.3%; width: 66.7%;">19:00 — 01:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Muzeum Neonów</div>
+                        <div class="attraction-address">PKiN, 4 piętro</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 44.4%; width: 44.4%;">20:00 — 00:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Rektorat SGH</div>
+                        <div class="attraction-address">Niepodległości 162</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 50%; width: 16.6%;">20:30 — 22:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Fabryka E.Wedel</div>
+                        <div class="attraction-address">al. Wedla 5</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 55.5%; width: 44.5%;">21:00 — 01:00</div>
+                    </div>
+                </div>
+
+                <div class="attraction-row">
+                    <div class="attraction-info">
+                        <div class="attraction-name">Filharmonia</div>
+                        <div class="attraction-address">ul. Jasna 5</div>
+                    </div>
+                    <div class="attraction-bar-bg">
+                        <div class="bar" style="left: 66.6%; width: 16.6%;">22:00 — 23:30</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div>
+                    <i class="fas fa-map-pin mr-2"></i> 
+                    <strong>Bonus:</strong> CHEESE® aparat (Postępu 27) godz. 13:30
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Widok 2: Twoja Mapa Google My Maps -->
+    <div id="view-map" class="view-content">
+        <div class="map-container">
+            <!-- Osadzenie Twojej mapy My Maps -->
+            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1liLT8teCxP_rcuXr59zPl3THQ-XTN6A" style="border: none"></iframe>
+        </div>
+        
+        <!-- Przycisk do otwarcia mapy w nowym oknie dla lepszej nawigacji -->
+        <a href="https://www.google.com/maps/d/viewer?mid=1liLT8teCxP_rcuXr59zPl3THQ-XTN6A" target="_blank" class="google-maps-link">
+            <i class="fas fa-external-link-alt mr-2"></i> OTWÓRZ PEŁNĄ MAPĘ W GOOGLE MAPS
+        </a>
+
+        <div class="mt-4 p-4 bg-emerald-950/30 border border-emerald-500/30 rounded-xl text-center">
+            <p class="text-emerald-400 text-xs">
+                <i class="fas fa-info-circle mr-2"></i> Wyświetlam Twoją autorską mapę z zaznaczonymi atrakcjami. Użyj przycisku powyżej, aby uruchomić nawigację na telefonie.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function switchView(viewName) {
+            document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('view-' + viewName).classList.add('active');
+            document.getElementById('btn-' + viewName).classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
